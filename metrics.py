@@ -1,8 +1,11 @@
 from datetime import datetime
-from scapy import packet
+from scapy.all import Packet
+from collections import Counter
+from config import logger
 
 
-def measure_throughput(packets: list[packet.Packet], interval_duration: int = 1):
+def measure_throughput(packets: list[Packet], interval_duration: int = 1):
+    logger.info("Processing .pcap for throughputs...")
     timestamps = [packet.time for packet in packets]
     sizes = [len(packet) for packet in packets]
 
@@ -19,8 +22,38 @@ def measure_throughput(packets: list[packet.Packet], interval_duration: int = 1)
             if interval_start <= timestamp < interval_start + 1:
                 bytes_in_window += sizes[i]
 
-        throughputs.append(bytes_in_window)
-        intervals.append(datetime.utcfromtimestamp(float(interval_start)))
-        interval_start += interval_duration
+        throughput_bps = (bytes_in_window * 8) / interval_duration
+        throughputs.append(throughput_bps)
+        intervals.append(datetime.fromtimestamp(float(interval_start)))
 
+        interval_start += interval_duration
+    logger.info(f"Computed throughputs for {interval_duration} second intervals.")
     return throughputs, intervals
+
+
+def get_protocol_distribution(packets: list[Packet]):
+    logger.info("Processing .pcap for protocol distribution...")
+    protocols_count = Counter()
+
+    protocol_names = {
+        1: "ICMP",
+        6: "TCP",
+        17: "UDP",
+        80: "HTTP",
+        443: "HTTPS",
+        53: "DNS",
+        21: "FTP",
+        22: "SSH",
+        110: "POP3",
+        143: "IMAP",
+    }
+
+    for pkt in packets:
+        if pkt.haslayer("IP"):
+            ip_layer = pkt["IP"]
+            proto = ip_layer.proto
+
+            protocol_name = protocol_names.get(proto, "Other")
+            protocols_count[protocol_name] += 1
+    logger.info("Computed protocol distribution.")
+    return protocols_count

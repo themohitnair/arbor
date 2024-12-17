@@ -1,19 +1,55 @@
 import matplotlib.pyplot as plt
 from datetime import datetime
 import os
+from collections import Counter
 from config import PLOTS_DIR
+from config import logger
 
 
 def plot_throughput(throughputs: list[int], intervals: list[datetime]):
-    fig, ax = plt.subplots(figsize=(10, 6))
-
-    ax.plot(intervals, throughputs, label="Throughput", linewidth=1)
-
-    ax.set_title("Throughput Plot")
-    ax.set_xlabel("Interval Timestamps")
-    ax.set_ylabel("Throughput")
-
-    ax.grid(True, linestyle="--", alpha=0.6)
-
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        intervals,
+        throughputs,
+        label="Throughput",
+        color="dodgerblue",
+        linewidth=2,
+        markersize=5,
+    )
+    plt.title(
+        "Throughput Over Time", fontsize=16, fontweight="bold", fontname="monospace"
+    )
+    plt.xlabel("Time", fontsize=14, fontname="monospace")
+    plt.ylabel("Throughput (bytes/sec)", fontsize=14, fontname="monospace")
+    plt.grid(True, linestyle="--", alpha=0.7)
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
     output_path = os.path.join(PLOTS_DIR, "throughput.png")
+    logger.info("Plotted throughput.")
     plt.savefig(output_path, dpi=300)
+    logger.info("Saved throughput plot.")
+
+
+def plot_protocol_distribution(distribution: Counter):
+    protocols = list(distribution.keys())
+    counts = list(distribution.values())
+    plt.figure(figsize=(10, 6))
+    plt.barh(
+        protocols,
+        counts,
+        color=plt.cm.Paired.colors[: len(protocols)],
+        edgecolor="black",
+    )
+    plt.title(
+        "Protocol Distribution", fontsize=16, fontweight="bold", fontname="monospace"
+    )
+    plt.xlabel("Packet Count", fontsize=14, fontname="monospace")
+    plt.ylabel("Protocol", fontsize=14, fontname="monospace")
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(True, axis="x", linestyle="--", alpha=0.7)
+    plt.tight_layout()
+    output_path = os.path.join(PLOTS_DIR, "proto-dist.png")
+    logger.info("Plotted protocol distribution.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved protocol distribution plot.")
