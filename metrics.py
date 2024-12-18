@@ -80,12 +80,34 @@ def measure_jitter(packets: list[Packet]):
 
 
 def measure_cumulative_traffic(packets: list[Packet]):
-    logger.info("Processing .pcap for cumulative traffic volume...")
+    logger.info("Processing .pcap for cumulative traffic...")
 
     timestamps = [datetime.fromtimestamp(float(pkt.time)) for pkt in packets]
 
     sizes = [len(pkt) for pkt in packets]
 
     cumulative_traffic = [sum(sizes[: i + 1]) for i in range(len(sizes))]
-
+    logger.info("Computed cumulative traffic.")
     return timestamps, cumulative_traffic
+
+
+def measure_tcp_latency(packets):
+    tcp_timestamps = []
+    tcp_rtts = []
+
+    outstanding_requests_tcp = {}
+
+    for pkt in packets:
+        if pkt.haslayer("TCP"):
+            tcp_layer = pkt["TCP"]
+
+            if tcp_layer.flags == "S":
+                outstanding_requests_tcp[tcp_layer.seq] = pkt.time
+            elif tcp_layer.flags == "SA":
+                if tcp_layer.ack - 1 in outstanding_requests_tcp:
+                    request_time = outstanding_requests_tcp.pop(tcp_layer.ack - 1)
+                    latency = pkt.time - request_time
+                    tcp_rtts.append(latency)
+                    tcp_timestamps.append(pkt.time)
+
+    return tcp_timestamps, tcp_rtts

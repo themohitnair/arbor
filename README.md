@@ -11,10 +11,13 @@ A network analysis exercise using the Scapy library in python.
    ![](sample_plots/proto-dist.png)
 
 3. Packet Size Distribution
-   ![](sample_plots/pkt-sizes.png)
+   ![](sample_plots/pkt_sizes.png)
 
 4. Jitter
    ![](sample_plots/jitter.png)
 
 5. Cumulative Traffic
    ![](sample_plots/cum_traffic.png)
+
+6. TCP Latency
+   ![](sample_plots/tcp_latency.png)

@@ -65,7 +65,7 @@ def plot_packet_size_distribution(sizes: list[int]):
     plt.ylabel("Frequency", fontsize=14, fontname="monospace")
     plt.grid(True, axis="x", linestyle="--", alpha=0.7)
     plt.tight_layout()
-    output_path = os.path.join(PLOTS_DIR, "pkt-sizes.png")
+    output_path = os.path.join(PLOTS_DIR, "pkt_sizes.png")
     logger.info("Plotted packet size distribution.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved packet size distribution plot.")
@@ -116,3 +116,35 @@ def plot_cum_traffic(timestamps: list[datetime], cumulative_traffic: list[int]):
     logger.info("Plotted cumulative traffic.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved cumulative traffic plot.")
+
+
+def plot_tcp_latency(tcp_timestamps: list[int], tcp_rtts: list[int]):
+    plt.figure(figsize=(10, 6))
+
+    plt.plot(
+        tcp_timestamps,
+        tcp_rtts,
+        color="dodgerblue",
+        linewidth=2,
+        markersize=5,
+        label="TCP Latency",
+    )
+
+    plt.title(
+        "TCP Latency Over Time",
+        fontsize=16,
+        fontweight="bold",
+        fontname="monospace",
+    )
+    plt.xlabel("Time (seconds)", fontsize=14, fontname="monospace")
+    plt.ylabel("Latency (RTT in seconds)", fontsize=14, fontname="monospace")
+    plt.grid(True, linestyle="--", alpha=0.7)
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+
+    plt.legend()
+
+    output_path = os.path.join(PLOTS_DIR, "tcp_latency.png")
+    logger.info("Plotted TCP Latency.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved TCP Latency Plot.")
