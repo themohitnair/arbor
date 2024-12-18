@@ -90,3 +90,29 @@ def plot_jitter(jitter_values: list[int]):
     logger.info("Plotted jitter.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved jitter plot.")
+
+
+def plot_cum_traffic(timestamps: list[datetime], cumulative_traffic: list[int]):
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        timestamps,
+        cumulative_traffic,
+        color="dodgerblue",
+        linewidth=2,
+        markersize=5,
+    )
+    plt.title(
+        "Cumulative Traffic Volume Over Time",
+        fontsize=16,
+        fontweight="bold",
+        fontname="monospace",
+    )
+    plt.xlabel("Time (seconds)", fontsize=14, fontname="monospace")
+    plt.ylabel("Cumulative Traffic (bytes)", fontsize=14, fontname="monospace")
+    plt.grid(True, linestyle="--", alpha=0.7)
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    output_path = os.path.join(PLOTS_DIR, "cum_traffic.png")
+    logger.info("Plotted cumulative traffic.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved cumulative traffic plot.")

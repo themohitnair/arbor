@@ -77,3 +77,15 @@ def measure_jitter(packets: list[Packet]):
     ]
     logger.info("Computed jitter values.")
     return jitter_values
+
+
+def measure_cumulative_traffic(packets: list[Packet]):
+    logger.info("Processing .pcap for cumulative traffic volume...")
+
+    timestamps = [datetime.fromtimestamp(float(pkt.time)) for pkt in packets]
+
+    sizes = [len(pkt) for pkt in packets]
+
+    cumulative_traffic = [sum(sizes[: i + 1]) for i in range(len(sizes))]
+
+    return timestamps, cumulative_traffic

@@ -15,3 +15,6 @@ A network analysis exercise using the Scapy library in python.
 
 4. Jitter
    ![](sample_plots/jitter.png)
+
+5. Cumulative Traffic
+   ![](sample_plots/cum_traffic.png)
