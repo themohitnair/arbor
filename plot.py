@@ -69,3 +69,24 @@ def plot_packet_size_distribution(sizes: list[int]):
     logger.info("Plotted packet size distribution.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved packet size distribution plot.")
+
+
+def plot_jitter(jitter_values: list[int]):
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        jitter_values,
+        label="Jitter",
+        color="dodgerblue",
+        linewidth=2,
+        markersize=5,
+    )
+    plt.title("Jitter Over Time", fontsize=16, fontweight="bold", fontname="monospace")
+    plt.xlabel("Packet Index", fontsize=14, fontname="monospace")
+    plt.ylabel("Jitter (seconds)", fontsize=14, fontname="monospace")
+    plt.grid(True, linestyle="--", alpha=0.7)
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    output_path = os.path.join(PLOTS_DIR, "jitter.png")
+    logger.info("Plotted jitter.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved jitter plot.")

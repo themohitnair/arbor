@@ -62,4 +62,18 @@ def get_protocol_distribution(packets: list[Packet]):
 def get_packet_size_distribution(packets: list[Packet]):
     logger.info("Processing .pcap for packet sizes...")
     pkt_sizes = [len(pkt) for pkt in packets]
+    logger.info("Computed packet size distribution.")
     return pkt_sizes
+
+
+def measure_jitter(packets: list[Packet]):
+    logger.info("Processing .pcap for inter-arrival times...")
+    inter_arrival_times = [
+        packets[i].time - packets[i - 1].time for i in range(1, len(packets))
+    ]
+    jitter_values = [
+        abs(inter_arrival_times[i] - inter_arrival_times[i - 1])
+        for i in range(1, len(inter_arrival_times))
+    ]
+    logger.info("Computed jitter values.")
+    return jitter_values

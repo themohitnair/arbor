@@ -12,3 +12,6 @@ A network analysis exercise using the Scapy library in python.
 
 3. Packet Size Distribution
    ![](sample_plots/pkt-sizes.png)
+
+4. Jitter
+   ![](sample_plots/jitter.png)
