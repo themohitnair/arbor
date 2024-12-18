@@ -53,3 +53,19 @@ def plot_protocol_distribution(distribution: Counter):
     logger.info("Plotted protocol distribution.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved protocol distribution plot.")
+
+
+def plot_packet_size_distribution(sizes: list[int]):
+    plt.figure(figsize=(10, 6))
+    plt.hist(sizes, bins=30, edgecolor="black")
+    plt.title(
+        "Packet Size Distribution", fontsize=16, fontweight="bold", fontname="monospace"
+    )
+    plt.xlabel("Packet Sizes", fontsize=14, fontname="monospace")
+    plt.ylabel("Frequency", fontsize=14, fontname="monospace")
+    plt.grid(True, axis="x", linestyle="--", alpha=0.7)
+    plt.tight_layout()
+    output_path = os.path.join(PLOTS_DIR, "pkt-sizes.png")
+    logger.info("Plotted packet size distribution.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved packet size distribution plot.")

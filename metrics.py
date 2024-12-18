@@ -57,3 +57,9 @@ def get_protocol_distribution(packets: list[Packet]):
             protocols_count[protocol_name] += 1
     logger.info("Computed protocol distribution.")
     return protocols_count
+
+
+def get_packet_size_distribution(packets: list[Packet]):
+    logger.info("Processing .pcap for packet sizes...")
+    pkt_sizes = [len(pkt) for pkt in packets]
+    return pkt_sizes

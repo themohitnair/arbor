@@ -1,6 +1,14 @@
-from metrics import measure_throughput, get_protocol_distribution
+from metrics import (
+    measure_throughput,
+    get_protocol_distribution,
+    get_packet_size_distribution,
+)
 from scapy.all import rdpcap
-from plot import plot_throughput, plot_protocol_distribution
+from plot import (
+    plot_throughput,
+    plot_protocol_distribution,
+    plot_packet_size_distribution,
+)
 from config import PLOTS_DIR
 import os
 from config import logger
@@ -11,8 +19,10 @@ if __name__ == "__main__":
     packets = rdpcap("packet_captures/personal.pcapng")
     logger.info("Read .pcap file.")
 
+    sizes = get_packet_size_distribution(packets)
     throughputs, intervals = measure_throughput(packets)
     dist = get_protocol_distribution(packets)
 
     plot_throughput(throughputs, intervals)
     plot_protocol_distribution(dist)
+    plot_packet_size_distribution(sizes)
