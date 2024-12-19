@@ -7,7 +7,7 @@ log_file = "app.log"
 log_level = logging.DEBUG
 
 log_format = "%(asctime)s - %(levelname)s - %(message)s"
-log_datefmt = "%Y-%m-%d %H:%M"
+log_datefmt = "%Y-%m-%d %H:%M:%S"
 
 logger = logging.getLogger("arbor")
 if not logger.hasHandlers():

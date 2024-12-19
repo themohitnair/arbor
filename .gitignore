@@ -1,5 +1,7 @@
-.venv
 __pycache__
-packet_captures
-plots
+.venv
 app.log
+*.pcap
+*.cap
+*.pcapng
+plots
