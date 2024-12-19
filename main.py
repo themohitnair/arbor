@@ -5,6 +5,7 @@ from metrics import (
     measure_jitter,
     measure_cumulative_traffic,
     measure_tcp_latency,
+    measure_dns_resolution_times,
 )
 from scapy.all import rdpcap
 from plot import (
@@ -14,6 +15,7 @@ from plot import (
     plot_jitter,
     plot_cum_traffic,
     plot_tcp_latency,
+    plot_dns_lookup_times,
 )
 from config import PLOTS_DIR
 import os
@@ -31,6 +33,7 @@ if __name__ == "__main__":
     jitter_values = measure_jitter(packets)
     timestamps, cumulative_traffic = measure_cumulative_traffic(packets)
     tcp_timestamps, tcp_rtts = measure_tcp_latency(packets)
+    dns_res_times = measure_dns_resolution_times(packets)
 
     plot_throughput(throughputs, intervals)
     plot_protocol_distribution(dist)
@@ -38,3 +41,4 @@ if __name__ == "__main__":
     plot_jitter(jitter_values)
     plot_cum_traffic(timestamps, cumulative_traffic)
     plot_tcp_latency(tcp_timestamps, tcp_rtts)
+    plot_dns_lookup_times(dns_res_times)

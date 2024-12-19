@@ -111,3 +111,27 @@ def measure_tcp_latency(packets):
                     tcp_timestamps.append(pkt.time)
 
     return tcp_timestamps, tcp_rtts
+
+
+def measure_dns_resolution_times(packets: list[Packet]):
+    logger.info("Processing .pcap for DNS query resolution times...")
+
+    dns_queries = {}
+    resolution_times = []
+
+    for pkt in packets:
+        if pkt.haslayer("DNS"):
+            dns_layer = pkt["DNS"]
+            if dns_layer.qr == 0:
+                query_id = dns_layer.id
+                dns_queries[query_id] = pkt.time
+            elif dns_layer.qr == 1:
+                query_id = dns_layer.id
+                if query_id in dns_queries:
+                    query_time = dns_queries.pop(query_id)
+                    response_time = pkt.time
+                    resolution_time = response_time - query_time
+                    resolution_times.append(resolution_time)
+
+    logger.info("Computed DNS query resolution times.")
+    return resolution_times

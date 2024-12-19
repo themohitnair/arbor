@@ -49,7 +49,7 @@ def plot_protocol_distribution(distribution: Counter):
     plt.yticks(fontsize=12)
     plt.grid(True, axis="x", linestyle="--", alpha=0.7)
     plt.tight_layout()
-    output_path = os.path.join(PLOTS_DIR, "proto-dist.png")
+    output_path = os.path.join(PLOTS_DIR, "proto_dist.png")
     logger.info("Plotted protocol distribution.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved protocol distribution plot.")
@@ -145,6 +145,31 @@ def plot_tcp_latency(tcp_timestamps: list[int], tcp_rtts: list[int]):
     plt.legend()
 
     output_path = os.path.join(PLOTS_DIR, "tcp_latency.png")
+    logger.info("Plotted TCP Latency.")
+    plt.savefig(output_path, dpi=300)
+    logger.info("Saved TCP Latency Plot.")
+
+
+def plot_dns_lookup_times(dns_times: list[float]):
+    if not dns_times:
+        logger.warning("No DNS lookup times to plot.")
+        return
+
+    plt.figure(figsize=(10, 6))
+    plt.hist(dns_times, bins=30, color="dodgerblue", edgecolor="black", alpha=0.7)
+
+    plt.title(
+        "DNS Lookup Times Distribution",
+        fontsize=16,
+        fontweight="bold",
+        fontname="monospace",
+    )
+    plt.xlabel("Lookup Time (seconds)", fontsize=14, fontname="monospace")
+    plt.ylabel("Frequency", fontsize=14, fontname="monospace")
+    plt.grid(True, axis="y", linestyle="--", alpha=0.7)
+    plt.tight_layout()
+
+    output_path = os.path.join(PLOTS_DIR, "dns_lookup_times.png")
     logger.info("Plotted TCP Latency.")
     plt.savefig(output_path, dpi=300)
     logger.info("Saved TCP Latency Plot.")

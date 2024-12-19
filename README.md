@@ -8,7 +8,7 @@ A network analysis exercise using the Scapy library in python.
    ![](sample_plots/throughput.png)
 
 2. Protocol Distribution
-   ![](sample_plots/proto-dist.png)
+   ![](sample_plots/proto_dist.png)
 
 3. Packet Size Distribution
    ![](sample_plots/pkt_sizes.png)
@@ -21,3 +21,6 @@ A network analysis exercise using the Scapy library in python.
 
 6. TCP Latency
    ![](sample_plots/tcp_latency.png)
+
+7. Distribution of DNS Lookup Times
+   ![](sample_plots/dns_lookup_times.png)
