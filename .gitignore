@@ -5,3 +5,5 @@ app.log
 *.cap
 *.pcapng
 plots
+firstpage.pdf
+merged-report-cn.pdf
